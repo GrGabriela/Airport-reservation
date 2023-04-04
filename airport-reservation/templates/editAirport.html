@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script>
+  function check() {
+
+        var name=document.getElementById("name");
+        var vector_name=document.getElementById("nume");
+        document.getElementById('errorname').innerHTML=" ";
+
+        for(var i=0;i<vector_name.length;i++) {
+            if((name.value).toLowerCase()===(vector_name[i].value).toLowerCase()) {
+             document.getElementById('errorname').innerHTML="Duplicate name";
+             return false;
+             }
+        }
+        return true;
+    }
+    </script>
+
+
+    <style>
+@font-face {
+	font-family: 'SansationLight';
+	src: url('./FontSansationLight/SansationLight.eot');
+	src: local('SansationLight'), url('./FontSansationLight/SansationLight.woff') format('woff'), url('./FontSansationLight/SansationLight.ttf') format('truetype');
+}
+* {box-sizing: border-box}
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'SansationLight' !important;
+    background: #9999FF;
+}
+
+/* Style tab links */
+.tablink {
+	font-weight: bold;
+	font-family: 'SansationLight' !important;
+    background-color: #557;
+    color: azure;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 12px;
+    font-size: 17px;
+    width: 20%;
+}
+
+.tablink:hover {
+    background-color: #579;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: #000066;
+    padding: 100px 20px;
+    height: 100%;
+}
+    </style>
+</head>
+<body>
+   <a href="Passenger"><button class="tablink" >Passenger</button></a>
+  <a href="Passport"><button class="tablink">Passport</button></a>
+  <a href="Airport"><button class="tablink" style="background:rgb(70,130,180); color: white">Airport</button></a>
+  <a href="Flight"><button class="tablink">Flight</button></a>
+  <a href="Booking"><button class="tablink">Booking</button></a>
+
+   <div id="Airport" class="tabcontent">
+	<center>
+		  <br>
+  		<h1 id="h3">Edit airport</h1>
+      <br><br><br>
+      <form class="was-validated" method="POST" action="/editAirport" onsubmit="return check()">
+          <select hidden id="nume">
+              {% for com in Nume%}
+                <option value={{com}}>{{com}}</option>
+              {% endfor %}
+          </select>
+
+          <div class="col-md-6 mb-3">
+            <input name="airport_id" type="hidden" class="form-control is-valid" id="validationServer01" value="{{Airport_id}}">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">Name</label>
+            <input name="name" id="name" type="text" class="form-control is-valid" id="validationServer01" value="{{Name}}" required>
+          </div>
+          <span class="error" id="errorname"></span><br><br>
+            <div class="col-md-6 mb-3">
+            <label for="validationServer01">Country</label>
+            <input name="country" type="text" class="form-control is-valid" id="validationServer01" value="{{Country}}" required>
+          </div>
+
+		  <div class="col-md-6 mb-3">
+            <label for="validationServer01">City</label>
+            <input name="city" type="text" class="form-control is-valid" id="validationServer01" value="{{City}}" required>
+        </div>
+            <div>
+        <br><button class="btn btn-primary" type="submit" onclick="check()">Edit airport</button>
+            </div>
+      </form>
+
+  </center>
+
+</div>
+</body>
+</html>

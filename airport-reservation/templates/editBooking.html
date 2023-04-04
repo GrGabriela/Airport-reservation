@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+     <script>
+     var pop_up=true;
+  function check(e) {
+       document.getElementById("edit").disabled=false;
+       var name1=document.getElementById("dep");
+       var name2=document.getElementById("arr");
+
+       var nr1=document.getElementById("available");
+       var nr2=document.getElementById("seat");
+       var nr3=document.getElementById("old_seat");
+
+       document.getElementById('errorname').innerHTML=" ";
+       document.getElementById('errorname1').innerHTML=" ";
+
+       var old_flight_id=document.getElementById("old_flight").value;
+       var ticket_id=document.getElementById("ticket").value;
+       var old_seat=document.getElementById("old_seat").value;
+       var seat=document.getElementById("seat").value;
+       var p_id=document.getElementById("passenger").value;
+       var flight_dep=document.getElementById("dep").value;
+       var flight_arr=document.getElementById("arr").value;
+
+        if(name2.value==name1.value)
+       {
+            document.getElementById('errorname').innerHTML="Please enter another arrival airport";
+            return false;
+       }
+       if((nr1.value+nr3.value)-nr2.value<0)
+       {
+            document.getElementById('errorname1').innerHTML="No more seats available";
+            return false;
+       }
+
+       e.preventDefault();
+       document.getElementById("edit").disabled=false;
+       $.ajax({
+        type:"POST",
+        url:'/editBooking',
+        data: {'old_flight_id':old_flight_id,
+        'ticket_id': ticket_id,
+        'old_seat': old_seat,
+        'seat': seat,
+        'p_id': p_id,
+        'flight_dep': flight_dep,
+        'flight_arr': flight_arr},
+        success: function(data) {
+            if(data.status === "error"){
+                pop_up=false;
+                document.getElementById("edit").disabled=false;
+                alert("Nu mai sunt locuri disponibile");
+
+            }
+        },
+        error: function(xhr,status,error) {
+                pop_up=false;
+                document.getElementById("edit").disabled=false;
+                var jsonResponse=JSON.parse(xhr.responseText);
+                var message=jsonResponse.message;
+                alert(message);
+                return false;
+        }
+        });
+        document.getElementById("edit").disabled=true;
+
+       return true;
+    }
+    </script>
+
+    <style>
+@font-face {
+	font-family: 'SansationLight';
+	src: url('./FontSansationLight/SansationLight.eot');
+	src: local('SansationLight'), url('./FontSansationLight/SansationLight.woff') format('woff'), url('./FontSansationLight/SansationLight.ttf') format('truetype');
+}
+* {box-sizing: border-box}
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'SansationLight' !important;
+    background: #9999FF;
+}
+
+/* Style tab links */
+.tablink {
+	font-weight: bold;
+	font-family: 'SansationLight' !important;
+    background-color: #557;
+    color: azure;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 12px;
+    font-size: 17px;
+    width: 20%;
+}
+
+.tablink:hover {
+    background-color: #579;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: #000066;
+    padding: 100px 20px;
+    height: 100%;
+}
+    </style>
+</head>
+<body>
+   <a href="Passenger"><button class="tablink" >Passenger</button></a>
+  <a href="Passport"><button class="tablink">Passport</button></a>
+  <a href="Airport"><button class="tablink">Airport</button></a>
+  <a href="Flight"><button class="tablink">Flight</button></a>
+  <a href="Booking"><button class="tablink" style="background:rgb(70,130,180); color: white">Booking</button></a>
+
+   <div id="Booking" class="tabcontent">
+	<center>
+		  <br>
+  		<h1 id="h3">Edit booking</h1>
+      <br>
+      <form class="was-validated" id="form" method="POST" action='/editBooking' onsubmit="return check(event)">
+          <div class="col-md-6 mb-3">
+            <input name="ticket_id" id="ticket" type="hidden" class="form-control is-valid" id="validationServer01" value="{{Ticket_id}}">
+          </div>
+          <div class="col-md-6 mb-3">
+            <input name="old_flight_id" id="old_flight" type="hidden" class="form-control is-valid" id="validationServer01" value="{{Flight_id}}">
+          </div>
+          <div class="col-md-6 mb-3">
+            <input name="available" id="available" type="hidden" class="form-control is-valid" value="{{Available}}">
+          </div>
+          <div class="col-md-6 mb-3">
+            <input name="old_seat" id="old_seat" type="hidden" class="form-control is-valid" value="{{Seat_nr}}">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">Seat number</label>
+            <input name="seat" id="seat" type="text" class="form-control is-valid"  value="{{Seat_nr}}" required>
+          </div>
+          <span class="error" id="errorname1"></span>
+
+		  <div class="col-md-6 mb-3">
+            <label for="validationServer01">Passenger phone</label>
+            <select name="p_id" id="passenger" class="custom-select d-block my-3">
+                <option value="{{P_id}}">{{P_id}}</option>
+                {% for com in Phone %}
+                <option value={{com}}>{{com}}</option>
+               {% endfor %}
+            </select>
+        </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">Flight departure</label>
+            <select name="flight_dep" id="dep" class="custom-select d-block my-3">
+                <option value="{{Fli_d}}">{{Fli_d}}</option>
+                {% for com in Airport %}
+                <option value={{com}}>{{com}}</option>
+               {% endfor %}
+            </select>
+        </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">Flight arrival</label>
+            <select name="flight_arr" id="arr" class="custom-select d-block my-3">
+                <option value="{{Fli_a}}">{{Fli_a}}</option>
+                {% for com in Airport1 %}
+                <option value={{com}}>{{com}}</option>
+               {% endfor %}
+            </select>
+        </div>
+          <span class="error" id="errorname"></span>
+            <div>
+                <button class="btn btn-primary" id="edit" type="submit" onclick="check()">Edit booking</button><br>
+                <br><a href="Booking"><button class="btn btn-primary" type="button" onclick="check()">Return booking</button></a>
+
+            </div>
+      </form>
+
+  </center>
+
+</div>
+</body>
+</html>

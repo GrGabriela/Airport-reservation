@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+    <script>
+  function check(e) {
+
+       var name1=document.getElementById("dep");
+       var name2=document.getElementById("arr");
+       var date1=document.getElementById("dep_date").value;
+       var date2=document.getElementById("arr_date").value;
+
+       document.getElementById('errorname1').innerHTML=" ";
+       document.getElementById('errorname').innerHTML=" ";
+
+       var dep_date=new Date(date1);
+       var arr_date=new Date(date2);
+
+      if(dep_date.getTime()>arr_date.getTime())
+      {
+            document.getElementById('errorname1').innerHTML="Arrival date must be greater or equal than the date of departure";
+            return false;
+      }
+
+       if(name2.value==name1.value)
+       {
+            document.getElementById('errorname').innerHTML="Please enter another arrival airport";
+            return false;
+       }
+
+       return true;
+    }
+    </script>
+
+
+    <style>
+@font-face {
+	font-family: 'SansationLight';
+	src: url('./FontSansationLight/SansationLight.eot');
+	src: local('SansationLight'), url('./FontSansationLight/SansationLight.woff') format('woff'), url('./FontSansationLight/SansationLight.ttf') format('truetype');
+}
+* {box-sizing: border-box}
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'SansationLight' !important;
+    background: #9999FF;
+}
+
+/* Style tab links */
+.tablink {
+	font-weight: bold;
+	font-family: 'SansationLight' !important;
+    background-color: #557;
+    color: azure;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 12px;
+    font-size: 17px;
+    width: 20%;
+}
+
+.tablink:hover {
+    background-color: #579;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: #000066;
+    padding: 100px 20px;
+    height: 100%;
+}
+    </style>
+</head>
+
+
+<body>
+   <a href="Passenger"><button class="tablink" >Passenger</button></a>
+  <a href="Passport"><button class="tablink">Passport</button></a>
+  <a href="Airport"><button class="tablink">Airport</button></a>
+  <a href="Flight"><button class="tablink" style="background:rgb(70,130,180); color: white">Flight</button></a>
+  <a href="Booking"><button class="tablink">Booking</button></a>
+
+   <div id="Flight" class="tabcontent">
+	<center>
+		  <br>
+  		<h1 id="h3">Add flight</h1>
+      <br><br><br>
+      <form name="zbor" class="was-validated" method="POST" action="/addFlight" onsubmit="return check(this)">
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">Departure date</label>
+            <input name="departure_date" id="dep_date" type="date" class="form-control is-valid" id="validationServer01" placeholder="ex. 12.02.2023 " required>
+          </div>
+             <div class="col-md-6 mb-3">
+            <label for="validationServer01">Arrival date</label>
+            <input name="arrival_date" id="arr_date" type="date" class="form-control is-valid" id="validationServer01" placeholder="ex.  15.02.2023" required>
+          </div>
+          <span class="error" id="errorname1"></span>
+		  <div class="col-md-6 mb-3">
+            <label for="validationServer01">Capacity</label>
+            <input name="capacity" type="number" class="form-control is-valid"  min="10" max="25" id="validationServer01" placeholder="ex. 10"  required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">Departure airport</label>
+            <select name="departure_airport" id="dep" class="custom-select d-block my-3">
+              <option value="">Choose departure airport</option>
+              {% for com in Airport %}
+                <option value={{com}}>{{com}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">Arrival airport</label>
+            <select name="arrival_airport" id="arr" class="custom-select d-block my-3">
+              <option value="">Choose arrival airport</option>
+              {% for com in Airport%}
+                <option value={{com}}>{{com}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <span class="error" id="errorname"></span><br><br><br>
+        <button id="button" class="btn btn-primary" type="submit" onclick="check()">Add flight</button>
+      </form>
+
+  </center>
+   </div>
+
+
+</body>
+</html>

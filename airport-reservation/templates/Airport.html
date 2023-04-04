@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+ <style>
+
+
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'SansationLight' !important;
+    background: #9999FF;
+}
+
+/* Style tab links */
+.tablink {
+	font-weight: bold;
+	font-family: 'SansationLight' !important;
+    background-color: #557;
+    color: azure;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 12px;
+    font-size: 17px;
+    width: 20%;
+}
+
+.tablink:hover {
+    background-color: #579;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+	color: #000066;
+    padding: 100px 20px;
+    height: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-color: black;
+    text-align: center;
+}
+th, td {
+    padding: 15px;
+}
+
+.radiotext {
+    margin: 10px 10px 0px 0px;
+}
+</style>
+</head>
+<body>
+
+  <a href="Passenger"><button class="tablink" >Passenger</button></a>
+  <a href="Passport"><button class="tablink">Passport</button></a>
+  <a href="Airport"><button class="tablink" style="background:rgb(70,130,180); color: white">Airport</button></a>
+  <a href="Flight"><button class="tablink">Flight</button></a>
+  <a href="Booking"><button class="tablink" >Booking</button></a>
+
+
+  <div id="Airport" class="tabcontent">
+	<center>
+		  <br>
+  		<h1>Airport</h1>
+		<h2>Display table Airport</h2>
+  		<br>
+		<div class="btn-group">
+
+
+        <a href="addAirport"><button type="button" class="btn btn-primary" >Add airport</button></a>
+        <br><br>
+
+
+      </div>
+<br><br><br><br>
+<table style="width:70%">
+  			<tr>
+    			<th>Airport id</th>
+    			<th>Name</th>
+    			<th>Country</th>
+    			<th>City</th>
+				<th>Actions</th>
+  			</tr>
+        {% for airport in airports %}
+  			<tr>
+    			<td>{{airport["Airport_id"]}}</td>
+    			<td>{{airport["Name"]}}</td>
+    			<td>{{airport["Country"]}}</td>
+                <td>{{airport["City"]}}</td>
+				<td>
+				<form class="was-validated" method="POST" action="/getAirport">
+                  <button type="submit" name="airport_id" value="{{airport['Airport_id']}}" class="btn btn-primary">Edit airport</button>
+                </form> <br>
+                <form class="was-validated" method="POST" action="/delAirport">
+                  <button type="submit" name="airport_id" value="{{airport['Airport_id']}}" class="btn btn-primary">Delete airport</button>
+                </form>
+				</td>
+  			</tr>
+  			{% endfor %}
+		  </table>
+		   <br><br><br>
+  </center>
+  </div>
+
+</body>
+</html>

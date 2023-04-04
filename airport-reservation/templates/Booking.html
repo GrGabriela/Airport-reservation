@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+ <style>
+
+
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'SansationLight' !important;
+    background: #9999FF;
+}
+
+/* Style tab links */
+.tablink {
+	font-weight: bold;
+	font-family: 'SansationLight' !important;
+    background-color: #557;
+    color: azure;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 12px;
+    font-size: 17px;
+    width: 20%;
+}
+
+.tablink:hover {
+    background-color: #579;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+	color: #000066;
+    padding: 100px 20px;
+    height: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-color: black;
+    text-align: center;
+
+}
+th, td {
+    padding: 15px;
+}
+</style>
+</head>
+<body>
+
+  <a href="Passenger"><button class="tablink" >Passenger</button></a>
+  <a href="Passport"><button class="tablink">Passport</button></a>
+  <a href="Airport"><button class="tablink">Airport</button></a>
+  <a href="Flight"><button class="tablink">Flight</button></a>
+  <a href="Booking"><button class="tablink" style="background:rgb(70,130,180); color: white">Booking</button></a>
+
+
+  <div id="Booking" class="tabcontent">
+	<center>
+		  <br>
+  		<h1>Booking</h1>
+		<h2>Display table Booking</h2>
+  		<br>
+		<div class="btn-group">
+
+
+        <a href="addBooking"><button type="button" class="btn btn-primary" >Add booking</button></a>
+        <br><br>
+
+
+      </div>
+<br><br><br><br>
+<table style="width:100%">
+  			<tr>
+    			<th>Ticket id</th>
+    			<th>Number of seats</th>
+    			<th>Passenger</th>
+    			<th>Route</th>
+				<th>Actions</th>
+  			</tr>
+        {% for booking in bookings %}
+  			<tr>
+    			<td>{{booking["Ticket_id"]}}</td>
+    			<td>{{booking["Seat_nr"]}}</td>
+                <td>{{booking["P_id"]}}</td>
+    			<td>{{booking["Flight_id"]}}</td>
+				<td>
+                <form class="was-validated" method="POST" action="/getBooking">
+                  <button type="submit" name="ticket_id" value="{{booking['Ticket_id']}}" class="btn btn-primary">Edit booking</button>
+                </form><br>
+                <form class="was-validated" method="POST" action="/delBooking">
+                  <button type="submit" name="ticket_id" value="{{booking['Ticket_id']}}" class="btn btn-primary">Delete booking</button>
+                </form>
+          </td>
+  			</tr>
+  			{% endfor %}
+		  </table>
+		   <br><br><br>
+  </center>
+  </div>
+
+</body>
+</html>

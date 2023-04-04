@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+     <script>
+  function check() {
+
+        var pas=document.getElementById("p");
+        var phone=document.getElementById("phon");
+        var email=document.getElementById("mail");
+        var vector=document.getElementById("pasaport");
+        var vector_phone=document.getElementById("phone");
+        var vector_email=document.getElementById("email");
+
+        document.getElementById('errorname').innerHTML=" ";
+        document.getElementById('errorname1').innerHTML=" ";
+        document.getElementById('errorname2').innerHTML=" ";
+
+
+        for(var i=0;i<vector.length;i++) {
+            if((pas.value).toUpperCase()===vector[i].value) {
+             document.getElementById('errorname').innerHTML="Duplicate passport";
+             return false;
+             }
+        }
+
+        for(var i=0;i<vector_phone.length;i++) {
+            if(phone.value===vector_phone[i].value) {
+             document.getElementById('errorname1').innerHTML="Duplicate phone number";
+             return false;
+             }
+        }
+
+        for(var i=0;i<vector_email.length;i++) {
+            if(email.value===vector_email[i].value) {
+             document.getElementById('errorname2').innerHTML="Duplicate email";
+             return false;
+             }
+        }
+        return true;
+    }
+    </script>
+
+    <style>
+@font-face {
+	font-family: 'SansationLight';
+	src: url('./FontSansationLight/SansationLight.eot');
+	src: local('SansationLight'), url('./FontSansationLight/SansationLight.woff') format('woff'), url('./FontSansationLight/SansationLight.ttf') format('truetype');
+}
+* {box-sizing: border-box}
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'SansationLight' !important;
+    background: #9999FF;
+}
+
+/* Style tab links */
+.tablink {
+	font-weight: bold;
+	font-family: 'SansationLight' !important;
+    background-color: #557;
+    color: azure;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 12px;
+    font-size: 17px;
+    width: 20%;
+}
+
+.tablink:hover {
+    background-color: #579;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: #000066;
+    padding: 100px 20px;
+    height: 100%;
+}
+    </style>
+</head>
+<body>
+   <a href="Passenger"><button class="tablink" style="background:rgb(70,130,180); color: white">Passenger</button></a>
+  <a href="Passport"><button class="tablink">Passport</button></a>
+  <a href="Airport"><button class="tablink">Airport</button></a>
+  <a href="Flight"><button class="tablink">Flight</button></a>
+  <a href="Booking"><button class="tablink">Booking</button></a>
+
+   <div id="Passenger" class="tabcontent">
+	<center>
+		  <br>
+  		<h1 id="h3">Add passenger</h1>
+      <br><br><br>
+      <form class="was-validated" method="POST" action="/addPassenger" onsubmit="return check()">
+
+          <select hidden id="pasaport">
+              {% for com in Passport%}
+                <option value={{com}}>{{com}}</option>
+              {% endfor %}
+          </select>
+
+          <select hidden id="phone">
+              {% for com in Phone%}
+                <option value={{com}}>{{com}}</option>
+              {% endfor %}
+          </select>
+
+          <select hidden id="email">
+              {% for com in Email%}
+                <option value={{com}}>{{com}}</option>
+              {% endfor %}
+          </select>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">First name</label>
+            <input name="first_name" type="text" class="form-control is-valid" id="validationServer01" placeholder="ex. Ana " pattern="[a-zA-Z\s]+" required minlength="3">
+          </div>
+             <div class="col-md-6 mb-3">
+            <label for="validationServer01">Middle name</label>
+            <input name="middle_name" type="text" class="form-control is-valid" id="validationServer01" placeholder="ex.  Maria" pattern="[a-zA-Z\s]+" minlength="3">
+          </div>
+		  <div class="col-md-6 mb-3">
+            <label for="validationServer01">Last name</label>
+            <input name="last_name" type="text" class="form-control is-valid" id="validationServer01" placeholder="ex.  Popescu" pattern="[a-zA-Z\s]+" required minlength="3">
+          </div>
+
+		  <div class="col-md-6 mb-3">
+            <label for="validationServer01">Email</label>
+            <input name="email" id="mail" type="email" class="form-control is-valid" id="validationServer01" placeholder="ex. Popee@yahoo.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+              <span class="error" id="errorname2"></span><br>
+
+          </div>
+		  <div class="col-md-6 mb-3">
+            <label for="validationServer01">Phone number</label>
+            <input name="phone_number" id="phon" type="text" class="form-control is-valid" id="validationServer01" placeholder="ex. 0789234321" pattern="[0]{1}[:7:3:2]{1}[0-9]{8}" required>
+              <span class="error" id="errorname1"></span><br>
+
+          </div>
+            <div class="col-md-6 mb-3">
+            <label for="validationServer01">Passport number</label>
+            <input name="pass_nr" id="p" type="text" class="form-control is-valid" id="validationServer01" placeholder="ex. C03005988"  required>
+                <span class="error" id="errorname"></span><br>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" onclick="check()">Add passenger</button>
+      </form>
+
+  </center>
+
+</body>
+</html>
